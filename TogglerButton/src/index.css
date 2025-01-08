@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 :root {
@@ -68,4 +68,32 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+} */
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ? This file contains global CSS styles that apply to the entire application. It allows you to define styles that should be applied globally, affecting all components within the app */
+
+
+/* base rule */
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: "Urbanist",sans-serif;
+}
+
+html{
+  font-size: 62.5%;
+}
+
+:root{
+  --primary-color:#1c2833;
+  --secondary-color:#fff;
+  --bg-color:#f2f3f4;
 }
