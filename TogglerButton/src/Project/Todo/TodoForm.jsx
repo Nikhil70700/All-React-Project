@@ -1,26 +1,42 @@
 import { useState } from "react";
+
 export const TodoForm = ({ onAddTodo }) => {
-    const [inputValue, setinputValue] = useState("");
-    const handleInputChange = (value) => {
-        setinputValue(value);
+    const [inputValue, setInputValue] = useState(""); // Initial state ensures input is always controlled
+
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
     };
 
-    const handleFormSubmit = (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
+        if (!inputValue.trim()) return; // Prevent empty tasks
+        const newTask = {
+            id: Date.now(),
+            content: inputValue.trim(),
+            checked: false,
+        };
+        onAddTodo(newTask);
+        setInputValue(""); // Clear the input field after submitting
+    };
 
-        onAddTodo(inputValue);
-        setinputValue("");
-    }
     return (
-        <section className="form">
-            <form onSubmit={handleFormSubmit}>
+        <section>
+            <form onSubmit={handleSubmit}>
                 <div>
-                    <input type="text" className="todo-input" autoComplete="off" value={inputValue} onChange={(event) => handleInputChange(event.target.value)} />
+                    <input
+                        type="text"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        placeholder="Enter a task"
+                        className="todo-input"
+                    />
                 </div>
                 <div>
-                    <button type="submit" className="todo-btn"> Add Task</button>
+                    <button type="submit" className="todo-btn">
+                        Add Task
+                    </button>
                 </div>
             </form>
         </section>
-    )
-}
+    );
+};

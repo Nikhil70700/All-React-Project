@@ -13,15 +13,22 @@ export const Todo = () => {
 
 
     const handleFormSubmit = (inputValue) => {
+        const { id, content, checked } = inputValue;
+
+        //TO check if the input value is empty or not 
+        if (!content) return;
+        //To check if data is already exist or not 
+        // if (task.includes(inputValue))
+        //     return; // Exit the function
+
+        const ifTodoContentMatched = task.find((curTask) => curTask.content === content);
+
+        if (ifTodoContentMatched) return;
+
+        //!Note: In ES2015 (also kown as ES6) ,If the key and value are the same in a JavScript object,you can use shorthand property names to wriyte them only once(Instead of explicitly writing both the key and the value, you can just write the key, and JavaScript will automatically assign the value with the same name as the key.)
 
 
-        if (!inputValue) return; //if Input value is empty then don't store the data;
-
-        if (task.includes(inputValue))// Clear input field even if the task already exists
-            return; // Exit the function
-
-
-        setTask((prevTask) => [...prevTask, inputValue]);  //setTasK is a react function which is used to update the value
+        setTask((prevTask) => [...prevTask, { id, content, checked }]);  //setTasK is a react function which is used to update the value
 
 
     };
@@ -32,9 +39,7 @@ export const Todo = () => {
     //Todo handleDeleteTodo function.....
 
     const handleDeleteTodo = (value) => {
-        console.log(task);
-        console.log(value);
-        const updatedTask = task.filter((curTask) => curTask !== value);
+        const updatedTask = task.filter((curTask) => curTask.content !== value);
         setTask(updatedTask);
     };
 
@@ -42,6 +47,20 @@ export const Todo = () => {
 
     const handleClearTodoData = () => {
         setTask([]);
+    };
+
+
+    //todo handleCheckTodo functionality............
+
+    const handleCheckedTodo=(task)=>{
+    const updatedTask=task.map((curTask)=>{
+       if(curTask.content===task){
+        return{...curTask,checked:!curTask.checked};
+       }else{
+        return curTask;
+       }
+    });
+    setTask(updatedTask);
     }
 
     return <section className="todo-container">
@@ -53,9 +72,16 @@ export const Todo = () => {
         <TodoForm onAddTodo={handleFormSubmit} />
         <section className="myUnOrderList">
             <ul>
-                {task.map((curTask, index) => {
-                    return <TodoList key={index} data={curTask} onHandleDeleteTodo={handleDeleteTodo} />
-
+                {task.map((curTask) => {
+                    return (
+                        <TodoList 
+    key={curTask.id} 
+    data={curTask.content} 
+    onHandleDeleteTodo={handleDeleteTodo} 
+    checked={curTask.checked}
+    onHandleCheckedTodo={handleCheckedTodo} // 
+/>
+                    );
 
                 })}
             </ul>
